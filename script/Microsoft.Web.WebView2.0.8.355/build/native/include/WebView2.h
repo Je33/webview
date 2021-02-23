@@ -73,6 +73,13 @@ typedef interface IWebView2WebView4 IWebView2WebView4;
 #endif 	/* __IWebView2WebView4_FWD_DEFINED__ */
 
 
+#ifndef __IWebView2WebView5_FWD_DEFINED__
+#define __IWebView2WebView5_FWD_DEFINED__
+typedef interface IWebView2WebView5 IWebView2WebView5;
+
+#endif 	/* __IWebView2WebView5_FWD_DEFINED__ */
+
+
 #ifndef __IWebView2Deferral_FWD_DEFINED__
 #define __IWebView2Deferral_FWD_DEFINED__
 typedef interface IWebView2Deferral IWebView2Deferral;
@@ -241,6 +248,13 @@ typedef interface IWebView2WebResourceRequestedEventArgs IWebView2WebResourceReq
 #endif 	/* __IWebView2WebResourceRequestedEventArgs_FWD_DEFINED__ */
 
 
+#ifndef __IWebView2WebResourceRequestedEventArgs2_FWD_DEFINED__
+#define __IWebView2WebResourceRequestedEventArgs2_FWD_DEFINED__
+typedef interface IWebView2WebResourceRequestedEventArgs2 IWebView2WebResourceRequestedEventArgs2;
+
+#endif 	/* __IWebView2WebResourceRequestedEventArgs2_FWD_DEFINED__ */
+
+
 #ifndef __IWebView2WebResourceRequestedEventHandler_FWD_DEFINED__
 #define __IWebView2WebResourceRequestedEventHandler_FWD_DEFINED__
 typedef interface IWebView2WebResourceRequestedEventHandler IWebView2WebResourceRequestedEventHandler;
@@ -367,6 +381,13 @@ typedef interface IWebView2NewVersionAvailableEventHandler IWebView2NewVersionAv
 #endif 	/* __IWebView2NewVersionAvailableEventHandler_FWD_DEFINED__ */
 
 
+#ifndef __IWebView2ContainsFullScreenElementChangedEventHandler_FWD_DEFINED__
+#define __IWebView2ContainsFullScreenElementChangedEventHandler_FWD_DEFINED__
+typedef interface IWebView2ContainsFullScreenElementChangedEventHandler IWebView2ContainsFullScreenElementChangedEventHandler;
+
+#endif 	/* __IWebView2ContainsFullScreenElementChangedEventHandler_FWD_DEFINED__ */
+
+
 #ifndef __IWebView2Environment_FWD_DEFINED__
 #define __IWebView2Environment_FWD_DEFINED__
 typedef interface IWebView2Environment IWebView2Environment;
@@ -407,6 +428,8 @@ extern "C"{
 
 /* interface __MIDL_itf_webview2_0000_0000 */
 /* [local] */ 
+
+
 
 
 
@@ -552,7 +575,15 @@ enum WEBVIEW2_WEB_RESOURCE_CONTEXT
         WEBVIEW2_WEB_RESOURCE_CONTEXT_FONT	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_MEDIA + 1 ) ,
         WEBVIEW2_WEB_RESOURCE_CONTEXT_SCRIPT	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_FONT + 1 ) ,
         WEBVIEW2_WEB_RESOURCE_CONTEXT_XML_HTTP_REQUEST	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_SCRIPT + 1 ) ,
-        WEBVIEW2_WEB_RESOURCE_CONTEXT_FETCH	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_XML_HTTP_REQUEST + 1 ) 
+        WEBVIEW2_WEB_RESOURCE_CONTEXT_FETCH	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_XML_HTTP_REQUEST + 1 ) ,
+        WEBVIEW2_WEB_RESOURCE_CONTEXT_TEXT_TRACK	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_FETCH + 1 ) ,
+        WEBVIEW2_WEB_RESOURCE_CONTEXT_EVENT_SOURCE	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_TEXT_TRACK + 1 ) ,
+        WEBVIEW2_WEB_RESOURCE_CONTEXT_WEBSOCKET	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_EVENT_SOURCE + 1 ) ,
+        WEBVIEW2_WEB_RESOURCE_CONTEXT_MANIFEST	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_WEBSOCKET + 1 ) ,
+        WEBVIEW2_WEB_RESOURCE_CONTEXT_SIGNED_EXCHANGE	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_MANIFEST + 1 ) ,
+        WEBVIEW2_WEB_RESOURCE_CONTEXT_PING	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_SIGNED_EXCHANGE + 1 ) ,
+        WEBVIEW2_WEB_RESOURCE_CONTEXT_CSP_VIOLATION_REPORT	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_PING + 1 ) ,
+        WEBVIEW2_WEB_RESOURCE_CONTEXT_OTHER	= ( WEBVIEW2_WEB_RESOURCE_CONTEXT_CSP_VIOLATION_REPORT + 1 ) 
     } 	WEBVIEW2_WEB_RESOURCE_CONTEXT;
 
 
@@ -628,7 +659,7 @@ EXTERN_C const IID IID_IWebView2WebView;
         virtual HRESULT STDMETHODCALLTYPE remove_LostFocus( 
             /* [in] */ EventRegistrationToken token) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE add_WebResourceRequested( 
+        virtual HRESULT STDMETHODCALLTYPE add_WebResourceRequested_deprecated( 
             /* [in] */ LPCWSTR *const urlFilter,
             /* [in] */ WEBVIEW2_WEB_RESOURCE_CONTEXT *const resourceContextFilter,
             /* [in] */ SIZE_T filterLength,
@@ -848,7 +879,7 @@ EXTERN_C const IID IID_IWebView2WebView;
             IWebView2WebView * This,
             /* [in] */ EventRegistrationToken token);
         
-        HRESULT ( STDMETHODCALLTYPE *add_WebResourceRequested )( 
+        HRESULT ( STDMETHODCALLTYPE *add_WebResourceRequested_deprecated )( 
             IWebView2WebView * This,
             /* [in] */ LPCWSTR *const urlFilter,
             /* [in] */ WEBVIEW2_WEB_RESOURCE_CONTEXT *const resourceContextFilter,
@@ -1078,8 +1109,8 @@ EXTERN_C const IID IID_IWebView2WebView;
 #define IWebView2WebView_remove_LostFocus(This,token)	\
     ( (This)->lpVtbl -> remove_LostFocus(This,token) ) 
 
-#define IWebView2WebView_add_WebResourceRequested(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token)	\
-    ( (This)->lpVtbl -> add_WebResourceRequested(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token) ) 
+#define IWebView2WebView_add_WebResourceRequested_deprecated(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_WebResourceRequested_deprecated(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token) ) 
 
 #define IWebView2WebView_remove_WebResourceRequested(This,token)	\
     ( (This)->lpVtbl -> remove_WebResourceRequested(This,token) ) 
@@ -1407,7 +1438,7 @@ EXTERN_C const IID IID_IWebView2WebView3;
             IWebView2WebView3 * This,
             /* [in] */ EventRegistrationToken token);
         
-        HRESULT ( STDMETHODCALLTYPE *add_WebResourceRequested )( 
+        HRESULT ( STDMETHODCALLTYPE *add_WebResourceRequested_deprecated )( 
             IWebView2WebView3 * This,
             /* [in] */ LPCWSTR *const urlFilter,
             /* [in] */ WEBVIEW2_WEB_RESOURCE_CONTEXT *const resourceContextFilter,
@@ -1662,8 +1693,8 @@ EXTERN_C const IID IID_IWebView2WebView3;
 #define IWebView2WebView3_remove_LostFocus(This,token)	\
     ( (This)->lpVtbl -> remove_LostFocus(This,token) ) 
 
-#define IWebView2WebView3_add_WebResourceRequested(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token)	\
-    ( (This)->lpVtbl -> add_WebResourceRequested(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token) ) 
+#define IWebView2WebView3_add_WebResourceRequested_deprecated(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_WebResourceRequested_deprecated(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token) ) 
 
 #define IWebView2WebView3_remove_WebResourceRequested(This,token)	\
     ( (This)->lpVtbl -> remove_WebResourceRequested(This,token) ) 
@@ -1948,7 +1979,7 @@ EXTERN_C const IID IID_IWebView2WebView4;
             IWebView2WebView4 * This,
             /* [in] */ EventRegistrationToken token);
         
-        HRESULT ( STDMETHODCALLTYPE *add_WebResourceRequested )( 
+        HRESULT ( STDMETHODCALLTYPE *add_WebResourceRequested_deprecated )( 
             IWebView2WebView4 * This,
             /* [in] */ LPCWSTR *const urlFilter,
             /* [in] */ WEBVIEW2_WEB_RESOURCE_CONTEXT *const resourceContextFilter,
@@ -2224,8 +2255,8 @@ EXTERN_C const IID IID_IWebView2WebView4;
 #define IWebView2WebView4_remove_LostFocus(This,token)	\
     ( (This)->lpVtbl -> remove_LostFocus(This,token) ) 
 
-#define IWebView2WebView4_add_WebResourceRequested(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token)	\
-    ( (This)->lpVtbl -> add_WebResourceRequested(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token) ) 
+#define IWebView2WebView4_add_WebResourceRequested_deprecated(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_WebResourceRequested_deprecated(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token) ) 
 
 #define IWebView2WebView4_remove_WebResourceRequested(This,token)	\
     ( (This)->lpVtbl -> remove_WebResourceRequested(This,token) ) 
@@ -2372,6 +2403,618 @@ EXTERN_C const IID IID_IWebView2WebView4;
 #endif 	/* __IWebView2WebView4_INTERFACE_DEFINED__ */
 
 
+#ifndef __IWebView2WebView5_INTERFACE_DEFINED__
+#define __IWebView2WebView5_INTERFACE_DEFINED__
+
+/* interface IWebView2WebView5 */
+/* [unique][object][uuid] */ 
+
+
+EXTERN_C const IID IID_IWebView2WebView5;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("E55144F5-A16F-43D8-9580-1E5227152EDF")
+    IWebView2WebView5 : public IWebView2WebView4
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE add_ContainsFullScreenElementChanged( 
+            /* [in] */ IWebView2ContainsFullScreenElementChangedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE remove_ContainsFullScreenElementChanged( 
+            /* [in] */ EventRegistrationToken token) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE get_ContainsFullScreenElement( 
+            /* [retval][out] */ BOOL *containsFullScreenElement) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE add_WebResourceRequested( 
+            /* [in] */ IWebView2WebResourceRequestedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE AddWebResourceRequestedFilter( 
+            /* [in] */ const LPCWSTR uri,
+            /* [in] */ const WEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext) = 0;
+        
+        virtual HRESULT STDMETHODCALLTYPE RemoveWebResourceRequestedFilter( 
+            /* [in] */ const LPCWSTR uri,
+            /* [in] */ const WEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IWebView2WebView5Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IWebView2WebView5 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IWebView2WebView5 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IWebView2WebView5 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_Settings )( 
+            IWebView2WebView5 * This,
+            /* [retval][out] */ IWebView2Settings **settings);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_Source )( 
+            IWebView2WebView5 * This,
+            /* [retval][out] */ LPWSTR *uri);
+        
+        HRESULT ( STDMETHODCALLTYPE *Navigate )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR uri);
+        
+        HRESULT ( STDMETHODCALLTYPE *MoveFocus )( 
+            IWebView2WebView5 * This,
+            /* [in] */ WEBVIEW2_MOVE_FOCUS_REASON reason);
+        
+        HRESULT ( STDMETHODCALLTYPE *NavigateToString )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR htmlContent);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_NavigationStarting )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2NavigationStartingEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_NavigationStarting )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_DocumentStateChanged )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2DocumentStateChangedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_DocumentStateChanged )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_NavigationCompleted )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2NavigationCompletedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_NavigationCompleted )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_FrameNavigationStarting )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2NavigationStartingEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_FrameNavigationStarting )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_MoveFocusRequested )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2MoveFocusRequestedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_MoveFocusRequested )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_GotFocus )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2FocusChangedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_GotFocus )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_LostFocus )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2FocusChangedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_LostFocus )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_WebResourceRequested_deprecated )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR *const urlFilter,
+            /* [in] */ WEBVIEW2_WEB_RESOURCE_CONTEXT *const resourceContextFilter,
+            /* [in] */ SIZE_T filterLength,
+            /* [in] */ IWebView2WebResourceRequestedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_WebResourceRequested )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_ScriptDialogOpening )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2ScriptDialogOpeningEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_ScriptDialogOpening )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_ZoomFactorChanged )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2ZoomFactorChangedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_ZoomFactorChanged )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_PermissionRequested )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2PermissionRequestedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_PermissionRequested )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_ProcessFailed )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2ProcessFailedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_ProcessFailed )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *AddScriptToExecuteOnDocumentCreated )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR javaScript,
+            /* [in] */ IWebView2AddScriptToExecuteOnDocumentCreatedCompletedHandler *handler);
+        
+        HRESULT ( STDMETHODCALLTYPE *RemoveScriptToExecuteOnDocumentCreated )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR id);
+        
+        HRESULT ( STDMETHODCALLTYPE *ExecuteScript )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR javaScript,
+            /* [in] */ IWebView2ExecuteScriptCompletedHandler *handler);
+        
+        HRESULT ( STDMETHODCALLTYPE *CapturePreview )( 
+            IWebView2WebView5 * This,
+            /* [in] */ WEBVIEW2_CAPTURE_PREVIEW_IMAGE_FORMAT imageFormat,
+            /* [in] */ IStream *imageStream,
+            /* [in] */ IWebView2CapturePreviewCompletedHandler *handler);
+        
+        HRESULT ( STDMETHODCALLTYPE *Reload )( 
+            IWebView2WebView5 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_Bounds )( 
+            IWebView2WebView5 * This,
+            /* [retval][out] */ RECT *bounds);
+        
+        HRESULT ( STDMETHODCALLTYPE *put_Bounds )( 
+            IWebView2WebView5 * This,
+            /* [in] */ RECT bounds);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_ZoomFactor )( 
+            IWebView2WebView5 * This,
+            /* [retval][out] */ double *zoomFactor);
+        
+        HRESULT ( STDMETHODCALLTYPE *put_ZoomFactor )( 
+            IWebView2WebView5 * This,
+            /* [in] */ double zoomFactor);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_IsVisible )( 
+            IWebView2WebView5 * This,
+            /* [retval][out] */ BOOL *isVisible);
+        
+        HRESULT ( STDMETHODCALLTYPE *put_IsVisible )( 
+            IWebView2WebView5 * This,
+            /* [in] */ BOOL isVisible);
+        
+        HRESULT ( STDMETHODCALLTYPE *PostWebMessageAsJson )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR webMessageAsJson);
+        
+        HRESULT ( STDMETHODCALLTYPE *PostWebMessageAsString )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR webMessageAsString);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_WebMessageReceived )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2WebMessageReceivedEventHandler *handler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_WebMessageReceived )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *Close )( 
+            IWebView2WebView5 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *CallDevToolsProtocolMethod )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR methodName,
+            /* [in] */ LPCWSTR parametersAsJson,
+            /* [in] */ IWebView2CallDevToolsProtocolMethodCompletedHandler *handler);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_DevToolsProtocolEventReceived )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR eventName,
+            /* [in] */ IWebView2DevToolsProtocolEventReceivedEventHandler *handler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_DevToolsProtocolEventReceived )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR eventName,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_BrowserProcessId )( 
+            IWebView2WebView5 * This,
+            /* [retval][out] */ UINT32 *value);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_CanGoBack )( 
+            IWebView2WebView5 * This,
+            /* [retval][out] */ BOOL *canGoBack);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_CanGoForward )( 
+            IWebView2WebView5 * This,
+            /* [retval][out] */ BOOL *canGoForward);
+        
+        HRESULT ( STDMETHODCALLTYPE *GoBack )( 
+            IWebView2WebView5 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GoForward )( 
+            IWebView2WebView5 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *Stop )( 
+            IWebView2WebView5 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_NewWindowRequested )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2NewWindowRequestedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_NewWindowRequested )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_DocumentTitleChanged )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2DocumentTitleChangedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_DocumentTitleChanged )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_DocumentTitle )( 
+            IWebView2WebView5 * This,
+            /* [out] */ LPWSTR *title);
+        
+        HRESULT ( STDMETHODCALLTYPE *AddRemoteObject )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR name,
+            /* [in] */ VARIANT *object);
+        
+        HRESULT ( STDMETHODCALLTYPE *RemoveRemoteObject )( 
+            IWebView2WebView5 * This,
+            /* [in] */ LPCWSTR name);
+        
+        HRESULT ( STDMETHODCALLTYPE *OpenDevToolsWindow )( 
+            IWebView2WebView5 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_AcceleratorKeyPressed )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2AcceleratorKeyPressedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_AcceleratorKeyPressed )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_ContainsFullScreenElementChanged )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2ContainsFullScreenElementChangedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *remove_ContainsFullScreenElementChanged )( 
+            IWebView2WebView5 * This,
+            /* [in] */ EventRegistrationToken token);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_ContainsFullScreenElement )( 
+            IWebView2WebView5 * This,
+            /* [retval][out] */ BOOL *containsFullScreenElement);
+        
+        HRESULT ( STDMETHODCALLTYPE *add_WebResourceRequested )( 
+            IWebView2WebView5 * This,
+            /* [in] */ IWebView2WebResourceRequestedEventHandler *eventHandler,
+            /* [out] */ EventRegistrationToken *token);
+        
+        HRESULT ( STDMETHODCALLTYPE *AddWebResourceRequestedFilter )( 
+            IWebView2WebView5 * This,
+            /* [in] */ const LPCWSTR uri,
+            /* [in] */ const WEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext);
+        
+        HRESULT ( STDMETHODCALLTYPE *RemoveWebResourceRequestedFilter )( 
+            IWebView2WebView5 * This,
+            /* [in] */ const LPCWSTR uri,
+            /* [in] */ const WEBVIEW2_WEB_RESOURCE_CONTEXT resourceContext);
+        
+        END_INTERFACE
+    } IWebView2WebView5Vtbl;
+
+    interface IWebView2WebView5
+    {
+        CONST_VTBL struct IWebView2WebView5Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IWebView2WebView5_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IWebView2WebView5_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IWebView2WebView5_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IWebView2WebView5_get_Settings(This,settings)	\
+    ( (This)->lpVtbl -> get_Settings(This,settings) ) 
+
+#define IWebView2WebView5_get_Source(This,uri)	\
+    ( (This)->lpVtbl -> get_Source(This,uri) ) 
+
+#define IWebView2WebView5_Navigate(This,uri)	\
+    ( (This)->lpVtbl -> Navigate(This,uri) ) 
+
+#define IWebView2WebView5_MoveFocus(This,reason)	\
+    ( (This)->lpVtbl -> MoveFocus(This,reason) ) 
+
+#define IWebView2WebView5_NavigateToString(This,htmlContent)	\
+    ( (This)->lpVtbl -> NavigateToString(This,htmlContent) ) 
+
+#define IWebView2WebView5_add_NavigationStarting(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_NavigationStarting(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_NavigationStarting(This,token)	\
+    ( (This)->lpVtbl -> remove_NavigationStarting(This,token) ) 
+
+#define IWebView2WebView5_add_DocumentStateChanged(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_DocumentStateChanged(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_DocumentStateChanged(This,token)	\
+    ( (This)->lpVtbl -> remove_DocumentStateChanged(This,token) ) 
+
+#define IWebView2WebView5_add_NavigationCompleted(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_NavigationCompleted(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_NavigationCompleted(This,token)	\
+    ( (This)->lpVtbl -> remove_NavigationCompleted(This,token) ) 
+
+#define IWebView2WebView5_add_FrameNavigationStarting(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_FrameNavigationStarting(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_FrameNavigationStarting(This,token)	\
+    ( (This)->lpVtbl -> remove_FrameNavigationStarting(This,token) ) 
+
+#define IWebView2WebView5_add_MoveFocusRequested(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_MoveFocusRequested(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_MoveFocusRequested(This,token)	\
+    ( (This)->lpVtbl -> remove_MoveFocusRequested(This,token) ) 
+
+#define IWebView2WebView5_add_GotFocus(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_GotFocus(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_GotFocus(This,token)	\
+    ( (This)->lpVtbl -> remove_GotFocus(This,token) ) 
+
+#define IWebView2WebView5_add_LostFocus(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_LostFocus(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_LostFocus(This,token)	\
+    ( (This)->lpVtbl -> remove_LostFocus(This,token) ) 
+
+#define IWebView2WebView5_add_WebResourceRequested_deprecated(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_WebResourceRequested_deprecated(This,urlFilter,resourceContextFilter,filterLength,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_WebResourceRequested(This,token)	\
+    ( (This)->lpVtbl -> remove_WebResourceRequested(This,token) ) 
+
+#define IWebView2WebView5_add_ScriptDialogOpening(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_ScriptDialogOpening(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_ScriptDialogOpening(This,token)	\
+    ( (This)->lpVtbl -> remove_ScriptDialogOpening(This,token) ) 
+
+#define IWebView2WebView5_add_ZoomFactorChanged(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_ZoomFactorChanged(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_ZoomFactorChanged(This,token)	\
+    ( (This)->lpVtbl -> remove_ZoomFactorChanged(This,token) ) 
+
+#define IWebView2WebView5_add_PermissionRequested(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_PermissionRequested(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_PermissionRequested(This,token)	\
+    ( (This)->lpVtbl -> remove_PermissionRequested(This,token) ) 
+
+#define IWebView2WebView5_add_ProcessFailed(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_ProcessFailed(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_ProcessFailed(This,token)	\
+    ( (This)->lpVtbl -> remove_ProcessFailed(This,token) ) 
+
+#define IWebView2WebView5_AddScriptToExecuteOnDocumentCreated(This,javaScript,handler)	\
+    ( (This)->lpVtbl -> AddScriptToExecuteOnDocumentCreated(This,javaScript,handler) ) 
+
+#define IWebView2WebView5_RemoveScriptToExecuteOnDocumentCreated(This,id)	\
+    ( (This)->lpVtbl -> RemoveScriptToExecuteOnDocumentCreated(This,id) ) 
+
+#define IWebView2WebView5_ExecuteScript(This,javaScript,handler)	\
+    ( (This)->lpVtbl -> ExecuteScript(This,javaScript,handler) ) 
+
+#define IWebView2WebView5_CapturePreview(This,imageFormat,imageStream,handler)	\
+    ( (This)->lpVtbl -> CapturePreview(This,imageFormat,imageStream,handler) ) 
+
+#define IWebView2WebView5_Reload(This)	\
+    ( (This)->lpVtbl -> Reload(This) ) 
+
+#define IWebView2WebView5_get_Bounds(This,bounds)	\
+    ( (This)->lpVtbl -> get_Bounds(This,bounds) ) 
+
+#define IWebView2WebView5_put_Bounds(This,bounds)	\
+    ( (This)->lpVtbl -> put_Bounds(This,bounds) ) 
+
+#define IWebView2WebView5_get_ZoomFactor(This,zoomFactor)	\
+    ( (This)->lpVtbl -> get_ZoomFactor(This,zoomFactor) ) 
+
+#define IWebView2WebView5_put_ZoomFactor(This,zoomFactor)	\
+    ( (This)->lpVtbl -> put_ZoomFactor(This,zoomFactor) ) 
+
+#define IWebView2WebView5_get_IsVisible(This,isVisible)	\
+    ( (This)->lpVtbl -> get_IsVisible(This,isVisible) ) 
+
+#define IWebView2WebView5_put_IsVisible(This,isVisible)	\
+    ( (This)->lpVtbl -> put_IsVisible(This,isVisible) ) 
+
+#define IWebView2WebView5_PostWebMessageAsJson(This,webMessageAsJson)	\
+    ( (This)->lpVtbl -> PostWebMessageAsJson(This,webMessageAsJson) ) 
+
+#define IWebView2WebView5_PostWebMessageAsString(This,webMessageAsString)	\
+    ( (This)->lpVtbl -> PostWebMessageAsString(This,webMessageAsString) ) 
+
+#define IWebView2WebView5_add_WebMessageReceived(This,handler,token)	\
+    ( (This)->lpVtbl -> add_WebMessageReceived(This,handler,token) ) 
+
+#define IWebView2WebView5_remove_WebMessageReceived(This,token)	\
+    ( (This)->lpVtbl -> remove_WebMessageReceived(This,token) ) 
+
+#define IWebView2WebView5_Close(This)	\
+    ( (This)->lpVtbl -> Close(This) ) 
+
+#define IWebView2WebView5_CallDevToolsProtocolMethod(This,methodName,parametersAsJson,handler)	\
+    ( (This)->lpVtbl -> CallDevToolsProtocolMethod(This,methodName,parametersAsJson,handler) ) 
+
+#define IWebView2WebView5_add_DevToolsProtocolEventReceived(This,eventName,handler,token)	\
+    ( (This)->lpVtbl -> add_DevToolsProtocolEventReceived(This,eventName,handler,token) ) 
+
+#define IWebView2WebView5_remove_DevToolsProtocolEventReceived(This,eventName,token)	\
+    ( (This)->lpVtbl -> remove_DevToolsProtocolEventReceived(This,eventName,token) ) 
+
+#define IWebView2WebView5_get_BrowserProcessId(This,value)	\
+    ( (This)->lpVtbl -> get_BrowserProcessId(This,value) ) 
+
+#define IWebView2WebView5_get_CanGoBack(This,canGoBack)	\
+    ( (This)->lpVtbl -> get_CanGoBack(This,canGoBack) ) 
+
+#define IWebView2WebView5_get_CanGoForward(This,canGoForward)	\
+    ( (This)->lpVtbl -> get_CanGoForward(This,canGoForward) ) 
+
+#define IWebView2WebView5_GoBack(This)	\
+    ( (This)->lpVtbl -> GoBack(This) ) 
+
+#define IWebView2WebView5_GoForward(This)	\
+    ( (This)->lpVtbl -> GoForward(This) ) 
+
+
+#define IWebView2WebView5_Stop(This)	\
+    ( (This)->lpVtbl -> Stop(This) ) 
+
+#define IWebView2WebView5_add_NewWindowRequested(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_NewWindowRequested(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_NewWindowRequested(This,token)	\
+    ( (This)->lpVtbl -> remove_NewWindowRequested(This,token) ) 
+
+#define IWebView2WebView5_add_DocumentTitleChanged(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_DocumentTitleChanged(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_DocumentTitleChanged(This,token)	\
+    ( (This)->lpVtbl -> remove_DocumentTitleChanged(This,token) ) 
+
+#define IWebView2WebView5_get_DocumentTitle(This,title)	\
+    ( (This)->lpVtbl -> get_DocumentTitle(This,title) ) 
+
+
+#define IWebView2WebView5_AddRemoteObject(This,name,object)	\
+    ( (This)->lpVtbl -> AddRemoteObject(This,name,object) ) 
+
+#define IWebView2WebView5_RemoveRemoteObject(This,name)	\
+    ( (This)->lpVtbl -> RemoveRemoteObject(This,name) ) 
+
+#define IWebView2WebView5_OpenDevToolsWindow(This)	\
+    ( (This)->lpVtbl -> OpenDevToolsWindow(This) ) 
+
+#define IWebView2WebView5_add_AcceleratorKeyPressed(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_AcceleratorKeyPressed(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_AcceleratorKeyPressed(This,token)	\
+    ( (This)->lpVtbl -> remove_AcceleratorKeyPressed(This,token) ) 
+
+
+#define IWebView2WebView5_add_ContainsFullScreenElementChanged(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_ContainsFullScreenElementChanged(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_remove_ContainsFullScreenElementChanged(This,token)	\
+    ( (This)->lpVtbl -> remove_ContainsFullScreenElementChanged(This,token) ) 
+
+#define IWebView2WebView5_get_ContainsFullScreenElement(This,containsFullScreenElement)	\
+    ( (This)->lpVtbl -> get_ContainsFullScreenElement(This,containsFullScreenElement) ) 
+
+#define IWebView2WebView5_add_WebResourceRequested(This,eventHandler,token)	\
+    ( (This)->lpVtbl -> add_WebResourceRequested(This,eventHandler,token) ) 
+
+#define IWebView2WebView5_AddWebResourceRequestedFilter(This,uri,resourceContext)	\
+    ( (This)->lpVtbl -> AddWebResourceRequestedFilter(This,uri,resourceContext) ) 
+
+#define IWebView2WebView5_RemoveWebResourceRequestedFilter(This,uri,resourceContext)	\
+    ( (This)->lpVtbl -> RemoveWebResourceRequestedFilter(This,uri,resourceContext) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IWebView2WebView5_INTERFACE_DEFINED__ */
+
+
 #ifndef __IWebView2Deferral_INTERFACE_DEFINED__
 #define __IWebView2Deferral_INTERFACE_DEFINED__
 
@@ -2483,10 +3126,10 @@ EXTERN_C const IID IID_IWebView2Settings;
         virtual HRESULT STDMETHODCALLTYPE put_AreDefaultScriptDialogsEnabled( 
             /* [in] */ BOOL areDefaultScriptDialogsEnabled) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE get_IsFullscreenAllowed( 
+        virtual HRESULT STDMETHODCALLTYPE get_IsFullscreenAllowed_deprecated( 
             /* [retval][out] */ BOOL *isFullscreenAllowed) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE put_IsFullscreenAllowed( 
+        virtual HRESULT STDMETHODCALLTYPE put_IsFullscreenAllowed_deprecated( 
             /* [in] */ BOOL isFullscreenAllowed) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE get_IsStatusBarEnabled( 
@@ -2546,11 +3189,11 @@ EXTERN_C const IID IID_IWebView2Settings;
             IWebView2Settings * This,
             /* [in] */ BOOL areDefaultScriptDialogsEnabled);
         
-        HRESULT ( STDMETHODCALLTYPE *get_IsFullscreenAllowed )( 
+        HRESULT ( STDMETHODCALLTYPE *get_IsFullscreenAllowed_deprecated )( 
             IWebView2Settings * This,
             /* [retval][out] */ BOOL *isFullscreenAllowed);
         
-        HRESULT ( STDMETHODCALLTYPE *put_IsFullscreenAllowed )( 
+        HRESULT ( STDMETHODCALLTYPE *put_IsFullscreenAllowed_deprecated )( 
             IWebView2Settings * This,
             /* [in] */ BOOL isFullscreenAllowed);
         
@@ -2611,11 +3254,11 @@ EXTERN_C const IID IID_IWebView2Settings;
 #define IWebView2Settings_put_AreDefaultScriptDialogsEnabled(This,areDefaultScriptDialogsEnabled)	\
     ( (This)->lpVtbl -> put_AreDefaultScriptDialogsEnabled(This,areDefaultScriptDialogsEnabled) ) 
 
-#define IWebView2Settings_get_IsFullscreenAllowed(This,isFullscreenAllowed)	\
-    ( (This)->lpVtbl -> get_IsFullscreenAllowed(This,isFullscreenAllowed) ) 
+#define IWebView2Settings_get_IsFullscreenAllowed_deprecated(This,isFullscreenAllowed)	\
+    ( (This)->lpVtbl -> get_IsFullscreenAllowed_deprecated(This,isFullscreenAllowed) ) 
 
-#define IWebView2Settings_put_IsFullscreenAllowed(This,isFullscreenAllowed)	\
-    ( (This)->lpVtbl -> put_IsFullscreenAllowed(This,isFullscreenAllowed) ) 
+#define IWebView2Settings_put_IsFullscreenAllowed_deprecated(This,isFullscreenAllowed)	\
+    ( (This)->lpVtbl -> put_IsFullscreenAllowed_deprecated(This,isFullscreenAllowed) ) 
 
 #define IWebView2Settings_get_IsStatusBarEnabled(This,isStatusBarEnabled)	\
     ( (This)->lpVtbl -> get_IsStatusBarEnabled(This,isStatusBarEnabled) ) 
@@ -2706,11 +3349,11 @@ EXTERN_C const IID IID_IWebView2Settings2;
             IWebView2Settings2 * This,
             /* [in] */ BOOL areDefaultScriptDialogsEnabled);
         
-        HRESULT ( STDMETHODCALLTYPE *get_IsFullscreenAllowed )( 
+        HRESULT ( STDMETHODCALLTYPE *get_IsFullscreenAllowed_deprecated )( 
             IWebView2Settings2 * This,
             /* [retval][out] */ BOOL *isFullscreenAllowed);
         
-        HRESULT ( STDMETHODCALLTYPE *put_IsFullscreenAllowed )( 
+        HRESULT ( STDMETHODCALLTYPE *put_IsFullscreenAllowed_deprecated )( 
             IWebView2Settings2 * This,
             /* [in] */ BOOL isFullscreenAllowed);
         
@@ -2779,11 +3422,11 @@ EXTERN_C const IID IID_IWebView2Settings2;
 #define IWebView2Settings2_put_AreDefaultScriptDialogsEnabled(This,areDefaultScriptDialogsEnabled)	\
     ( (This)->lpVtbl -> put_AreDefaultScriptDialogsEnabled(This,areDefaultScriptDialogsEnabled) ) 
 
-#define IWebView2Settings2_get_IsFullscreenAllowed(This,isFullscreenAllowed)	\
-    ( (This)->lpVtbl -> get_IsFullscreenAllowed(This,isFullscreenAllowed) ) 
+#define IWebView2Settings2_get_IsFullscreenAllowed_deprecated(This,isFullscreenAllowed)	\
+    ( (This)->lpVtbl -> get_IsFullscreenAllowed_deprecated(This,isFullscreenAllowed) ) 
 
-#define IWebView2Settings2_put_IsFullscreenAllowed(This,isFullscreenAllowed)	\
-    ( (This)->lpVtbl -> put_IsFullscreenAllowed(This,isFullscreenAllowed) ) 
+#define IWebView2Settings2_put_IsFullscreenAllowed_deprecated(This,isFullscreenAllowed)	\
+    ( (This)->lpVtbl -> put_IsFullscreenAllowed_deprecated(This,isFullscreenAllowed) ) 
 
 #define IWebView2Settings2_get_IsStatusBarEnabled(This,isStatusBarEnabled)	\
     ( (This)->lpVtbl -> get_IsStatusBarEnabled(This,isStatusBarEnabled) ) 
@@ -4945,6 +5588,115 @@ EXTERN_C const IID IID_IWebView2WebResourceRequestedEventArgs;
 #endif 	/* __IWebView2WebResourceRequestedEventArgs_INTERFACE_DEFINED__ */
 
 
+#ifndef __IWebView2WebResourceRequestedEventArgs2_INTERFACE_DEFINED__
+#define __IWebView2WebResourceRequestedEventArgs2_INTERFACE_DEFINED__
+
+/* interface IWebView2WebResourceRequestedEventArgs2 */
+/* [unique][object][uuid] */ 
+
+
+EXTERN_C const IID IID_IWebView2WebResourceRequestedEventArgs2;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("b38f6f16-9568-4f12-9996-dca7a06299f4")
+    IWebView2WebResourceRequestedEventArgs2 : public IWebView2WebResourceRequestedEventArgs
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE get_ResourceContext( 
+            WEBVIEW2_WEB_RESOURCE_CONTEXT *context) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IWebView2WebResourceRequestedEventArgs2Vtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IWebView2WebResourceRequestedEventArgs2 * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IWebView2WebResourceRequestedEventArgs2 * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IWebView2WebResourceRequestedEventArgs2 * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_Request )( 
+            IWebView2WebResourceRequestedEventArgs2 * This,
+            /* [retval][out] */ IWebView2WebResourceRequest **request);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_Response )( 
+            IWebView2WebResourceRequestedEventArgs2 * This,
+            /* [retval][out] */ IWebView2WebResourceResponse **response);
+        
+        HRESULT ( STDMETHODCALLTYPE *put_Response )( 
+            IWebView2WebResourceRequestedEventArgs2 * This,
+            /* [in] */ IWebView2WebResourceResponse *response);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetDeferral )( 
+            IWebView2WebResourceRequestedEventArgs2 * This,
+            /* [retval][out] */ IWebView2Deferral **deferral);
+        
+        HRESULT ( STDMETHODCALLTYPE *get_ResourceContext )( 
+            IWebView2WebResourceRequestedEventArgs2 * This,
+            WEBVIEW2_WEB_RESOURCE_CONTEXT *context);
+        
+        END_INTERFACE
+    } IWebView2WebResourceRequestedEventArgs2Vtbl;
+
+    interface IWebView2WebResourceRequestedEventArgs2
+    {
+        CONST_VTBL struct IWebView2WebResourceRequestedEventArgs2Vtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IWebView2WebResourceRequestedEventArgs2_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IWebView2WebResourceRequestedEventArgs2_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IWebView2WebResourceRequestedEventArgs2_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IWebView2WebResourceRequestedEventArgs2_get_Request(This,request)	\
+    ( (This)->lpVtbl -> get_Request(This,request) ) 
+
+#define IWebView2WebResourceRequestedEventArgs2_get_Response(This,response)	\
+    ( (This)->lpVtbl -> get_Response(This,response) ) 
+
+#define IWebView2WebResourceRequestedEventArgs2_put_Response(This,response)	\
+    ( (This)->lpVtbl -> put_Response(This,response) ) 
+
+#define IWebView2WebResourceRequestedEventArgs2_GetDeferral(This,deferral)	\
+    ( (This)->lpVtbl -> GetDeferral(This,deferral) ) 
+
+
+#define IWebView2WebResourceRequestedEventArgs2_get_ResourceContext(This,context)	\
+    ( (This)->lpVtbl -> get_ResourceContext(This,context) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IWebView2WebResourceRequestedEventArgs2_INTERFACE_DEFINED__ */
+
+
 #ifndef __IWebView2WebResourceRequestedEventHandler_INTERFACE_DEFINED__
 #define __IWebView2WebResourceRequestedEventHandler_INTERFACE_DEFINED__
 
@@ -6547,6 +7299,88 @@ EXTERN_C const IID IID_IWebView2NewVersionAvailableEventHandler;
 #endif 	/* __IWebView2NewVersionAvailableEventHandler_INTERFACE_DEFINED__ */
 
 
+#ifndef __IWebView2ContainsFullScreenElementChangedEventHandler_INTERFACE_DEFINED__
+#define __IWebView2ContainsFullScreenElementChangedEventHandler_INTERFACE_DEFINED__
+
+/* interface IWebView2ContainsFullScreenElementChangedEventHandler */
+/* [unique][object][uuid] */ 
+
+
+EXTERN_C const IID IID_IWebView2ContainsFullScreenElementChangedEventHandler;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("37CF6A21-4B0C-41B6-81A6-C85C0D0A7543")
+    IWebView2ContainsFullScreenElementChangedEventHandler : public IUnknown
+    {
+    public:
+        virtual HRESULT STDMETHODCALLTYPE Invoke( 
+            /* [in] */ IWebView2WebView5 *webview,
+            /* [in] */ IUnknown *args) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IWebView2ContainsFullScreenElementChangedEventHandlerVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IWebView2ContainsFullScreenElementChangedEventHandler * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IWebView2ContainsFullScreenElementChangedEventHandler * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IWebView2ContainsFullScreenElementChangedEventHandler * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            IWebView2ContainsFullScreenElementChangedEventHandler * This,
+            /* [in] */ IWebView2WebView5 *webview,
+            /* [in] */ IUnknown *args);
+        
+        END_INTERFACE
+    } IWebView2ContainsFullScreenElementChangedEventHandlerVtbl;
+
+    interface IWebView2ContainsFullScreenElementChangedEventHandler
+    {
+        CONST_VTBL struct IWebView2ContainsFullScreenElementChangedEventHandlerVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IWebView2ContainsFullScreenElementChangedEventHandler_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IWebView2ContainsFullScreenElementChangedEventHandler_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IWebView2ContainsFullScreenElementChangedEventHandler_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IWebView2ContainsFullScreenElementChangedEventHandler_Invoke(This,webview,args)	\
+    ( (This)->lpVtbl -> Invoke(This,webview,args) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IWebView2ContainsFullScreenElementChangedEventHandler_INTERFACE_DEFINED__ */
+
+
 #ifndef __IWebView2Environment_INTERFACE_DEFINED__
 #define __IWebView2Environment_INTERFACE_DEFINED__
 
@@ -6949,7 +7783,7 @@ EXTERN_C const IID IID_IWebView2CreateWebView2EnvironmentCompletedHandler;
 #endif 	/* __IWebView2CreateWebView2EnvironmentCompletedHandler_INTERFACE_DEFINED__ */
 
 
-/* interface __MIDL_itf_webview2_0000_0050 */
+/* interface __MIDL_itf_webview2_0000_0053 */
 /* [local] */ 
 
 STDAPI CreateWebView2EnvironmentWithDetails(
@@ -6968,8 +7802,8 @@ STDAPI CompareBrowserVersions(
     int* result);
 
 
-extern RPC_IF_HANDLE __MIDL_itf_webview2_0000_0050_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_webview2_0000_0050_v0_0_s_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_webview2_0000_0053_v0_0_c_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_webview2_0000_0053_v0_0_s_ifspec;
 
 /* Additional Prototypes for ALL interfaces */
 

@@ -56,77 +56,27 @@ func init() {
 	runtime.LockOSThread()
 }
 
-// Hints are used to configure window sizing and resizing
 type Hint int
 
 const (
-	// Width and height are default size
-	HintNone = C.WEBVIEW_HINT_NONE
-
-	// Window size can not be changed by a user
+	HintNone  = C.WEBVIEW_HINT_NONE
 	HintFixed = C.WEBVIEW_HINT_FIXED
-
-	// Width and height are minimum bounds
-	HintMin = C.WEBVIEW_HINT_MIN
-
-	// Width and height are maximum bounds
-	HintMax = C.WEBVIEW_HINT_MAX
+	HintMin   = C.WEBVIEW_HINT_MIN
+	HintMax   = C.WEBVIEW_HINT_MAX
 )
 
 type WebView interface {
-
-	// Run runs the main loop until it's terminated. After this function exits -
-	// you must destroy the webview.
 	Run()
-
-	// Terminate stops the main loop. It is safe to call this function from
-	// a background thread.
 	Terminate()
-
-	// Dispatch posts a function to be executed on the main thread. You normally
-	// do not need to call this function, unless you want to tweak the native
-	// window.
 	Dispatch(f func())
-
-	// Destroy destroys a webview and closes the native window.
 	Destroy()
-
-	// Window returns a native window handle pointer. When using GTK backend the
-	// pointer is GtkWindow pointer, when using Cocoa backend the pointer is
-	// NSWindow pointer, when using Win32 backend the pointer is HWND pointer.
 	Window() unsafe.Pointer
-
-	// SetTitle updates the title of the native window. Must be called from the UI
-	// thread.
 	SetTitle(title string)
-
-	// SetSize updates native window size. See Hint constants.
 	SetSize(w int, h int, hint Hint)
-
-	// Navigate navigates webview to the given URL. URL may be a data URI, i.e.
-	// "data:text/text,<html>...</html>". It is often ok not to url-encode it
-	// properly, webview will re-encode it for you.
 	Navigate(url string)
-
-	// Init injects JavaScript code at the initialization of the new page. Every
-	// time the webview will open a the new page - this initialization code will
-	// be executed. It is guaranteed that code is executed before window.onload.
 	Init(js string)
-
-	// Eval evaluates arbitrary JavaScript code. Evaluation happens asynchronously,
-	// also the result of the expression is ignored. Use RPC bindings if you want
-	// to receive notifications about the results of the evaluation.
 	Eval(js string)
-
-	// Bind binds a callback function so that it will appear under the given name
-	// as a global JavaScript function. Internally it uses webview_init().
-	// Callback receives a request string and a user-provided argument pointer.
-	// Request string is a JSON array of all the arguments passed to the
-	// JavaScript function.
-	//
-	// f must be a function
-	// f must return either value and error or just error
-	Bind(name string, f interface{}) error
+	Bind(name string, v interface{}) error
 }
 
 type webview struct {
@@ -147,16 +97,8 @@ func boolToInt(b bool) C.int {
 	return 0
 }
 
-// New calls NewWindow to create a new window and a new webview instance. If debug
-// is non-zero - developer tools will be enabled (if the platform supports them).
 func New(debug bool) WebView { return NewWindow(debug, nil) }
 
-// NewWindow creates a new webview instance. If debug is non-zero - developer
-// tools will be enabled (if the platform supports them). Window parameter can be
-// a pointer to the native window handle. If it's non-null - then child WebView is
-// embedded into the given parent window. Otherwise a new window is created.
-// Depending on the platform, a GtkWindow, NSWindow or HWND pointer can be passed
-// here.
 func NewWindow(debug bool, window unsafe.Pointer) WebView {
 	w := &webview{}
 	w.w = C.webview_create(boolToInt(debug), window)
@@ -229,6 +171,7 @@ func _webviewDispatchGoCallback(index unsafe.Pointer) {
 func _webviewBindingGoCallback(w C.webview_t, id *C.char, req *C.char, index uintptr) {
 	m.Lock()
 	f := bindings[uintptr(index)]
+	delete(bindings, uintptr(index))
 	m.Unlock()
 	jsString := func(v interface{}) string { b, _ := json.Marshal(v); return string(b) }
 	status, result := 0, ""
@@ -263,20 +206,12 @@ func (w *webview) Bind(name string, f interface{}) error {
 		if err := json.Unmarshal([]byte(req), &raw); err != nil {
 			return nil, err
 		}
-
-		isVariadic := v.Type().IsVariadic()
-		numIn := v.Type().NumIn()
-		if (isVariadic && len(raw) < numIn-1) || (!isVariadic && len(raw) != numIn) {
+		if len(raw) != v.Type().NumIn() {
 			return nil, errors.New("function arguments mismatch")
 		}
 		args := []reflect.Value{}
 		for i := range raw {
-			var arg reflect.Value
-			if isVariadic && i >= numIn-1 {
-				arg = reflect.New(v.Type().In(numIn - 1).Elem())
-			} else {
-				arg = reflect.New(v.Type().In(i))
-			}
+			arg := reflect.New(v.Type().In(i))
 			if err := json.Unmarshal(raw[i], arg.Interface()); err != nil {
 				return nil, err
 			}
